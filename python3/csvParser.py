@@ -49,7 +49,7 @@ with open (inputFile) as csvFile:
 
             times = []
 
-            with open ('full.csv') as csvFile:
+            with open (inputFile) as csvFile:
                 reader2 = csv.DictReader(csvFile, delimiter=';')
                 values = []
                 peakValues = []
