@@ -1,4 +1,7 @@
-import csv
+import csv, os, codecs
+
+BUFSIZE = 4096
+BOMLEN = len(codecs.BOM_UTF8)
 
 def integrate(y_vals, h):
     i = 1
@@ -30,6 +33,21 @@ outputFile += '.csv'
 delimiterCharacter = input('Enter the delimiter character or ; as default:')
 if (delimiterCharacter == ''):
     delimiterCharacter = ';'
+
+# https://stackoverflow.com/questions/8898294/convert-utf-8-with-bom-to-utf-8-with-no-bom-in-python
+with open(inputFile, "r+b") as fp:
+    chunk = fp.read(BUFSIZE)
+    if (chunk.startswith(codecs.BOM_UTF8)):
+        i = 0
+        chunk = chunk[BOMLEN:]
+        while chunk:
+            fp.seek(i)
+            fp.write(chunk)
+            i += len(chunk)
+            fp.seek(BOMLEN, os.SEEK_CUR)
+            chunk = fp.read(BUFSIZE)
+        fp.seek(-BOMLEN, os.SEEK_CUR)
+        fp.truncate()
 
 with open (inputFile) as csvFile:
     print('Parsing', inputFile, 'with delimiter', delimiterCharacter)
