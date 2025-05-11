@@ -26,11 +26,14 @@ def getArea(values, times):
 inputFile = input('Enter the name of the input csv file (.csv will be appended): ')
 inputFile += '.csv'
 outputFile = input('Enter the name of the output csv file (.csv will be appended): ')
-outputFile += '.csv'  
+outputFile += '.csv'
+delimiterCharacter = input('Enter the delimiter character or ; as default:')
+if (delimiterCharacter == ''):
+    delimiterCharacter = ';'
 
 with open (inputFile) as csvFile:
-    print('did it work?')
-    reader = csv.DictReader(csvFile, delimiter=';')
+    print('Parsing', inputFile, 'with delimiter', delimiterCharacter)
+    reader = csv.DictReader(csvFile, delimiter=delimiterCharacter)
 
     samples = []
     for name in reader.fieldnames:
@@ -50,7 +53,7 @@ with open (inputFile) as csvFile:
             times = []
 
             with open (inputFile) as csvFile:
-                reader2 = csv.DictReader(csvFile, delimiter=';')
+                reader2 = csv.DictReader(csvFile, delimiter=delimiterCharacter)
                 values = []
                 peakValues = []
                 for row in reader2:
@@ -97,7 +100,7 @@ with open (inputFile) as csvFile:
     f = open(outputFile, 'w') 
     for sample in samples:
       areas = []
-      deliminator = ';'
+      deliminator = delimiterCharacter
       name = sample['sample'].split(' ')[1]
       f.write('Sample;' + name + '\n')
       f.write('Peaks;' + deliminator.join(map(str, sample['peaks'])) + '\n')
