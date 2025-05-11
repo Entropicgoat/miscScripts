@@ -48,6 +48,7 @@ with open(inputFile, "r+b") as fp:
             chunk = fp.read(BUFSIZE)
         fp.seek(-BOMLEN, os.SEEK_CUR)
         fp.truncate()
+    fp.close()
 
 with open (inputFile) as csvFile:
     print('Parsing', inputFile, 'with delimiter', delimiterCharacter)
@@ -114,6 +115,7 @@ with open (inputFile) as csvFile:
                     'troughTimes': troughTimes,
                     'values': peakValues
                 })
+            csvFile.close()
     i = 0
     f = open(outputFile, 'w') 
     for sample in samples:
@@ -128,3 +130,4 @@ with open (inputFile) as csvFile:
       f.write('Areas;' + deliminator.join(map(str, areas)) + '\n')
       i += 1
     f.close()
+csvFile.close()
