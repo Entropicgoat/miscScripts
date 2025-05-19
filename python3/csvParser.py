@@ -80,7 +80,7 @@ with open (inputFile) as csvFile:
                     if (peak == None or float(row[name]) > peak):
                         peak = float(row[name])
                         peakTime = row['Time']
-                    if ((previous != None or previouser != None) and previous < float(row[name]) and (previouser > previous or previous == 0)):
+                    if ((previous != None or previouser != None) and previous < float(row[name]) and ((previouser != None and (previouser > previous)) or previous == 0)):
                         if (trough != None):
                             troughs.append(trough)
                             troughTimes.append(float(troughTime))
@@ -121,7 +121,10 @@ with open (inputFile) as csvFile:
     for sample in samples:
       areas = []
       deliminator = delimiterCharacter
-      name = sample['sample'].split(' ')[1]
+      if (len(sample['sample'].split(' ')) > 1):
+        name = sample['sample'].split(' ')[1]
+      else:
+        name = sample['sample']
       f.write('Sample;' + name + '\n')
       f.write('Peaks;' + deliminator.join(map(str, sample['peaks'])) + '\n')
       f.write('PeakTimes;' + deliminator.join(map(str, sample['peakTimes'])) + '\n')
