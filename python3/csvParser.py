@@ -26,10 +26,13 @@ def getArea(values, times):
           i += 1
   return area
 
-inputFile = input('Enter the name of the input csv file (.csv will be appended): ')
-inputFile += '.csv'
-outputFile = input('Enter the name of the output csv file (.csv will be appended): ')
-outputFile += '.csv'
+print('This only works with csv files.')
+inputFile = input('Enter the name of the input csv file: ')
+if ('.csv' not in inputFile):
+    inputFile += '.csv'
+outputFile = input('Enter the name of the output csv file: ')
+if ('.csv' not in outputFile):
+    outputFile += '.csv'
 delimiterCharacter = input('Enter the delimiter character or ; as default:')
 if (delimiterCharacter == ''):
     delimiterCharacter = ';'
