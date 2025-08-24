@@ -4,15 +4,8 @@ BUFSIZE = 4096
 BOMLEN = len(codecs.BOM_UTF8)
 
 def integrate(y_vals, h):
-    i = 1
-    total = y_vals[0] + y_vals[-1]
-    for y in y_vals[1:-1]:
-        if i % 2 == 0:
-            total += 2 * y
-        else:
-            total += 4 * y
-        i += 1
-    return total * (h / 3.0)
+    area = h * ((y_vals[0] + y_vals[-1]) / 2 + sum(y_vals[1:-1]))
+    return area
 
 def getArea(values, times):
   i = 1
@@ -120,7 +113,7 @@ with open (inputFile) as csvFile:
                 })
             csvFile.close()
     i = 0
-    f = open(outputFile, 'w') 
+    f = open(outputFile, 'w')
     for sample in samples:
       areas = []
       deliminator = delimiterCharacter
